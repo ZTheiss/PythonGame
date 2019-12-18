@@ -2,13 +2,6 @@ import pygame
 
 startingBG = pygame.image.load('GeneralSprits/background.jpg')
 charIdleModel = pygame.image.load('Sams/idle.png')
-""" walkrightMovement = [pygame.image.load('PlayerSprits/R1.png'), pygame.image.load('PlayerSprits/R2.png'), pygame.image.load('PlayerSprits/R3.png'), 
-    pygame.image.load('PlayerSprits/R4.png'), pygame.image.load('PlayerSprits/R5.png'), pygame.image.load('PlayerSprits/R6.png'), 
-    pygame.image.load('PlayerSprits/R7.png'), pygame.image.load('PlayerSprits/R8.png'), pygame.image.load('PlayerSprits/R9.png')]
-
-walkleftMovement = [pygame.image.load('PlayerSprits/L1.png'), pygame.image.load('PlayerSprits/L2.png'), pygame.image.load('PlayerSprits/L3.png'), 
-    pygame.image.load('PlayerSprits/L4.png'), pygame.image.load('PlayerSprits/L5.png'), pygame.image.load('PlayerSprits/L6.png'), 
-    pygame.image.load('PlayerSprits/L7.png'), pygame.image.load('PlayerSprits/L8.png'), pygame.image.load('PlayerSprits/L9.png')] """
 
 walkrightMovement = [pygame.image.load('Sams/r1.png'), pygame.image.load('Sams/r2.png'), pygame.image.load('Sams/r3.png'), 
     pygame.image.load('Sams/r4.png'), pygame.image.load('Sams/r5.png')]
@@ -19,7 +12,7 @@ walkleftMovement = [pygame.image.load('Sams/l1.png'), pygame.image.load('Sams/l2
 walkupMovement = [pygame.image.load('Sams/u1.png'), pygame.image.load('Sams/u2.png'), pygame.image.load('Sams/u3.png'), 
     pygame.image.load('Sams/u4.png'), pygame.image.load('Sams/u5.png')]
 
-walkdownMovement = [pygame.image.load('Sams/d1.png'), pygame.image.load('Sams/d2.png'), pygame.image.load('Sams/d3.png'), 
+walkdownMovement = [pygame.image.load('Sams/idle.png'), pygame.image.load('Sams/d1.png'), pygame.image.load('Sams/d2.png'), pygame.image.load('Sams/d3.png'), 
     pygame.image.load('Sams/d4.png')]
 
 for i in range(len(walkrightMovement)):
@@ -46,7 +39,7 @@ class Player(object):
         self.standing = True
 
     def draw(self,wind):
-        if self.walkCount + 1 >= 12: #9 sprits that display for 3 frames, index error if we go longer
+        if self.walkCount + 1 >= 15: #9 sprits that display for 3 frames, index error if we go longer
             self.walkCount = 0
 
         if not(self.standing):

@@ -1,5 +1,5 @@
-import pygame
 import random
+import pygame
 from Player import *
 from Projectile import *
 
@@ -29,7 +29,7 @@ playerChar = Player(300,410,64,64)
 
 run = True
 while run:
-    clockFPS.tick(27)
+    clockFPS.tick(30)
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -79,5 +79,3 @@ while run:
     
 
 pygame.quit()
-
-
