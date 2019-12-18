@@ -1,15 +1,16 @@
 import pygame
 import random
 from Player import *
+from Projectile import *
 
 pygame.init()
 #For Debugging
-wind = pygame.display.set_mode((500,480))
+wind = pygame.display.set_mode((640,480))
 #wind = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
 screenw, screenh = pygame.display.get_surface().get_size()
 pygame.display.set_caption("WolfPack")
-startingBG = pygame.image.load('GeneralSprits/bg.jpg')
+startingBG = pygame.image.load('GeneralSprits/background.jpg')
 
 clockFPS = pygame.time.Clock()
 
@@ -44,6 +45,7 @@ while run:
         playerChar.rightMovement = False
         playerChar.upMovement = False
         playerChar.downMovement = False
+        playerChar.standing = False
 
     elif keys[pygame.K_RIGHT] and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.velocity:
         playerChar.xlocation += playerChar.velocity
@@ -51,6 +53,7 @@ while run:
         playerChar.rightMovement = True #Movement is currently right, use right sprits
         playerChar.upMovement = False
         playerChar.downMovement = False
+        playerChar.standing = False
 
     elif keys[pygame.K_UP] and playerChar.ylocation > playerChar.velocity:
         playerChar.ylocation -= playerChar.velocity
@@ -58,6 +61,7 @@ while run:
         playerChar.rightMovement = False
         playerChar.upMovement = True #Movement is currently up, use up sprits
         playerChar.downMovement = False
+        playerChar.standing = False
 
     elif keys[pygame.K_DOWN] and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.velocity:
         playerChar.ylocation += playerChar.velocity
@@ -65,12 +69,10 @@ while run:
         playerChar.rightMovement = False
         playerChar.upMovement = False
         playerChar.downMovement = True #Movement is currently down, use down sprits
+        playerChar.standing = False
 
     else:
-        playerChar.leftMovement = False
-        playerChar.rightMovement = False
-        playerChar.upMovement = False
-        playerChar.downMovement = False
+        playerChar.standing = True
         playerChar.walkCount = 0
 
     redrawGameWindow()
