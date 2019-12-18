@@ -8,7 +8,11 @@ class Projectile(object):
         self.radius = radius
         self.color = color
         self.facing = facing
-        self.velocity = 8 * facing #facing for direction U=0,R=1,D=2,L=3
+
+        if facing == 2 or facing == -2:
+            self.velocity = 40 * facing
+        else:
+            self.velocity = 80 * facing #facing for direction U=-2,R=1,D=2,L=-1
     
-    def draw(wind):
-        pygame.draw.circle(win, self.color, (self.xlocation, self.ylocation), self.radius)
+    def draw(self, wind):
+        pygame.draw.circle(wind, self.color, (self.xlocation, self.ylocation), self.radius)

@@ -3,9 +3,12 @@ import pygame
 from Player import *
 from Projectile import *
 
+
+windowX = 640
+windowY = 480
 pygame.init()
 #For Debugging
-wind = pygame.display.set_mode((640,480))
+wind = pygame.display.set_mode((windowX,windowY))
 #wind = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
 
 screenw, screenh = pygame.display.get_surface().get_size()
@@ -19,13 +22,16 @@ clockFPS = pygame.time.Clock()
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
     playerChar.draw(wind)
+    for arrow in arrows:
+        arrow.draw(wind)
     pygame.display.update()
 
 
 #Main Loop
+facing = 0
 
 playerChar = Player(300,410,64,64)
-
+arrows = []
 
 run = True
 while run:
@@ -38,7 +44,49 @@ while run:
             quit()
             break
     
+    for arrow in arrows:
+        if facing == -2:
+            if arrow.ylocation < windowY and arrow.ylocation > 0:
+                arrow.ylocation += arrow.velocity
+            else:
+                arrows.pop(arrows.index(arrow))
+        elif facing == 2:
+            if arrow.ylocation < windowY and arrow.ylocation > 0:
+                arrow.ylocation += arrow.velocity
+            else:
+                arrows.pop(arrows.index(arrow))
+        elif facing == 1 or facing == -1:
+            if arrow.xlocation < windowX and arrow.xlocation > 0:
+                arrow.xlocation += arrow.velocity
+            else:
+                arrows.pop(arrows.index(arrow))
+        
+
     keys = pygame.key.get_pressed()
+
+    if keys[pygame.K_SPACE]:
+        if playerChar.leftMovement:
+            facing = -1
+            if len(arrows) < 30:
+                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
+        elif playerChar.rightMovement:
+            facing = 1
+            if len(arrows) < 30:
+                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
+        elif playerChar.upMovement:
+            facing = -2
+            if len(arrows) < 30:
+                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
+        elif playerChar.downMovement:
+            facing = 2
+            if len(arrows) < 30:
+                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
+
+
     if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.velocity:
         playerChar.xlocation -= playerChar.velocity
         playerChar.leftMovement = True #Movement is currently left, use left sprits
@@ -70,6 +118,8 @@ while run:
         playerChar.upMovement = False
         playerChar.downMovement = True #Movement is currently down, use down sprits
         playerChar.standing = False
+    
+    
 
     else:
         playerChar.standing = True
