@@ -2,9 +2,8 @@ import pygame
 
 startingBG = pygame.image.load('GeneralSprits/background.jpg')
 charIdleModel = pygame.image.load('Sams/idle.png')
-
 walkrightMovement = [pygame.image.load('Sams/r1.png'), pygame.image.load('Sams/r2.png'), pygame.image.load('Sams/r3.png'), 
-    pygame.image.load('Sams/r4.png'), pygame.image.load('Sams/r5.png')]
+pygame.image.load('Sams/r4.png'), pygame.image.load('Sams/r5.png')]
 
 walkleftMovement = [pygame.image.load('Sams/l1.png'), pygame.image.load('Sams/l2.png'), pygame.image.load('Sams/l3.png'), 
     pygame.image.load('Sams/l4.png'), pygame.image.load('Sams/l5.png')]
@@ -24,7 +23,11 @@ for i in range(len(walkupMovement)):
 for i in range(len(walkdownMovement)):
     walkdownMovement[i] = pygame.transform.scale(walkdownMovement[i], (64,64))
 
+
+
 class Player(object):
+
+
     def __init__(self, xlocation, ylocation, playerWidth, playerHeight):
         self.xlocation = xlocation
         self.ylocation = ylocation

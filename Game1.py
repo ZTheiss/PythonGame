@@ -65,26 +65,23 @@ while run:
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_SPACE]:
-        if playerChar.leftMovement:
-            facing = -1
-            if len(arrows) < 30:
+        if len(arrows) < 1: #Prevents the arrow glitch of going sideways
+            if playerChar.leftMovement:
+                facing = -1
                 arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
-        elif playerChar.rightMovement:
-            facing = 1
-            if len(arrows) < 30:
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+            elif playerChar.rightMovement:
+                facing = 1
                 arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
-        elif playerChar.upMovement:
-            facing = -2
-            if len(arrows) < 30:
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+            elif playerChar.upMovement:
+                facing = -2
                 arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
-        elif playerChar.downMovement:
-            facing = 2
-            if len(arrows) < 30:
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+            elif playerChar.downMovement:
+                facing = 2
                 arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2), 6,(0,0,0), facing))
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
 
 
     if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.velocity:
