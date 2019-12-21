@@ -1,5 +1,6 @@
 import random
 import pygame
+import copy
 from Player import *
 from Projectile import *
 
@@ -26,7 +27,6 @@ def redrawGameWindow():
         arrow.draw(wind)
     pygame.display.update()
 
-
 #Main Loop
 facing = 0
 
@@ -43,45 +43,43 @@ while run:
             pygame.quit()
             quit()
             break
-    
-    for arrow in arrows:
-        if facing == -2:
-            if arrow.ylocation < windowY and arrow.ylocation > 0:
-                arrow.ylocation += arrow.velocity
-            else:
-                arrows.pop(arrows.index(arrow))
-        elif facing == 2:
-            if arrow.ylocation < windowY and arrow.ylocation > 0:
-                arrow.ylocation += arrow.velocity
-            else:
-                arrows.pop(arrows.index(arrow))
-        elif facing == 1 or facing == -1:
+    i= 0
+    for arrow in arrows: #Bug was checking facing, not arrow.facing
+        i+=1
+        if arrow.facing == 1 or arrow.facing == -1:
             if arrow.xlocation < windowX and arrow.xlocation > 0:
                 arrow.xlocation += arrow.velocity
             else:
                 arrows.pop(arrows.index(arrow))
-        
+        elif arrow.facing == -2 or arrow.facing == 2:
+            if arrow.ylocation < windowY and arrow.ylocation > 0:
+                arrow.ylocation += arrow.velocity
+            else:
+                arrows.pop(arrows.index(arrow))
 
     keys = pygame.key.get_pressed()
 
     if keys[pygame.K_SPACE]:
-        if len(arrows) < 1: #Prevents the arrow glitch of going sideways
+        if len(arrows) < 5:
             if playerChar.leftMovement:
                 facing = -1
-                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+
             elif playerChar.rightMovement:
                 facing = 1
-                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+
             elif playerChar.upMovement:
                 facing = -2
-                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+
             elif playerChar.downMovement:
                 facing = 2
-                arrows.append(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing))
+                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
+                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
 
 
     if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.velocity:
