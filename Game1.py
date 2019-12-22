@@ -18,7 +18,6 @@ startingBG = pygame.image.load('GeneralSprits/background.jpg')
 
 clockFPS = pygame.time.Clock()
 
-
 #Changing the GameWindow
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
@@ -82,7 +81,7 @@ while run:
                 round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
 
 
-    if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.velocity:
+    if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and playerChar.xlocation > playerChar.velocity:
         playerChar.xlocation -= playerChar.velocity
         playerChar.leftMovement = True #Movement is currently left, use left sprits
         playerChar.rightMovement = False
@@ -90,7 +89,7 @@ while run:
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_RIGHT] and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.velocity:
+    elif (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.velocity:
         playerChar.xlocation += playerChar.velocity
         playerChar.leftMovement = False
         playerChar.rightMovement = True #Movement is currently right, use right sprits
@@ -98,7 +97,7 @@ while run:
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_UP] and playerChar.ylocation > playerChar.velocity:
+    elif (keys[pygame.K_w] or keys[pygame.K_UP]) and playerChar.ylocation > playerChar.velocity:
         playerChar.ylocation -= playerChar.velocity
         playerChar.leftMovement = False
         playerChar.rightMovement = False
@@ -106,7 +105,7 @@ while run:
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_DOWN] and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.velocity:
+    elif (keys[pygame.K_s] or keys[pygame.K_DOWN]) and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.velocity:
         playerChar.ylocation += playerChar.velocity
         playerChar.leftMovement = False
         playerChar.rightMovement = False

@@ -1,7 +1,4 @@
-
-
-
-
+import pygame
 
 class Enemy(object){
     walkrightMovementEnemy = [pygame.image.load('EnemySprits/R1E.png'), pygame.image.load('EnemySprits/R2E.png'), pygame.image.load('EnemySprits/R3E.png'), 
