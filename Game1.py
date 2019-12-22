@@ -3,6 +3,7 @@ import pygame
 import copy
 from Player import *
 from Projectile import *
+from Enemy import *
 
 
 windowX = 640
@@ -18,10 +19,12 @@ startingBG = pygame.image.load('GeneralSprits/background.jpg')
 
 clockFPS = pygame.time.Clock()
 
+
 #Changing the GameWindow
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
     playerChar.draw(wind)
+    tempEnemy.draw(wind)
     for arrow in arrows:
         arrow.draw(wind)
     pygame.display.update()
@@ -30,6 +33,7 @@ def redrawGameWindow():
 facing = 0
 
 playerChar = Player(300,410,64,64)
+tempEnemy = Enemy(100, 410, 64, 64, 450, 410)
 arrows = []
 
 run = True
@@ -81,32 +85,32 @@ while run:
                 round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
 
 
-    if (keys[pygame.K_a] or keys[pygame.K_LEFT]) and playerChar.xlocation > playerChar.velocity:
-        playerChar.xlocation -= playerChar.velocity
+    if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.walkSpeed:
+        playerChar.xlocation -= playerChar.walkSpeed
         playerChar.leftMovement = True #Movement is currently left, use left sprits
         playerChar.rightMovement = False
         playerChar.upMovement = False
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif (keys[pygame.K_d] or keys[pygame.K_RIGHT]) and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.velocity:
-        playerChar.xlocation += playerChar.velocity
+    elif keys[pygame.K_RIGHT] and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.walkSpeed:
+        playerChar.xlocation += playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = True #Movement is currently right, use right sprits
         playerChar.upMovement = False
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif (keys[pygame.K_w] or keys[pygame.K_UP]) and playerChar.ylocation > playerChar.velocity:
-        playerChar.ylocation -= playerChar.velocity
+    elif keys[pygame.K_UP] and playerChar.ylocation > playerChar.walkSpeed:
+        playerChar.ylocation -= playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = False
         playerChar.upMovement = True #Movement is currently up, use up sprits
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif (keys[pygame.K_s] or keys[pygame.K_DOWN]) and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.velocity:
-        playerChar.ylocation += playerChar.velocity
+    elif keys[pygame.K_DOWN] and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.walkSpeed:
+        playerChar.ylocation += playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = False
         playerChar.upMovement = False

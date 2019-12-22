@@ -33,7 +33,7 @@ class Player(object):
         self.ylocation = ylocation
         self.playerWidth = playerWidth
         self.playerHeight = playerHeight
-        self.velocity = 7
+        self.walkSpeed = 5
         self.walkCount = 0
         self.leftMovement = False
         self.rightMovement = False

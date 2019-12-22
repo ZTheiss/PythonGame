@@ -19,9 +19,19 @@ class Projectile(object):
         self.ylocation = ylocation
         self.facing = facing
 
-        if facing == 2 or facing == -2:
+        if facing == 2: #Down
+            self.ylocation += 20
+            self.xlocation -= 9
             self.velocity = 10 * facing
-        else:
+        if facing == -2: #Up
+            self.ylocation -= 20
+            self.xlocation -= 7.5
+            self.velocity = 10 * facing
+        elif facing == -1: #Left
+            self.xlocation -= 30 
+            self.velocity = 20 * facing #facing for direction U=-2,R=1,D=2,L=-1
+        elif facing == 1: #Right
+            self.xlocation += 8  
             self.velocity = 20 * facing #facing for direction U=-2,R=1,D=2,L=-1
     
     def draw(self, wind):
