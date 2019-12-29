@@ -22,6 +22,7 @@ class Enemy(object):
         self.path = [self.xlocation, self.xend, self.ylocation, self.yend]
         self.walkCount = 0
         self.vel = 3
+        self.hitbox = (self.xlocation + 20, self.ylocation, 28, 60) #x,y,width,height
 
     def draw(self, wind):
         self.move()
@@ -34,7 +35,8 @@ class Enemy(object):
         else:
             wind.blit(walkleftMovementEnemy[self.walkCount//3], (self.xlocation, self.ylocation))
             self.walkCount += 1
-        pass
+        self.hitbox = (self.xlocation + 20, self.ylocation, 28, 60) #x,y,width,height
+        pygame.draw.rect(wind, (255,0,0), self.hitbox,2)
 
     def move(self):
         if self.vel > 0: #moving Right
@@ -49,3 +51,6 @@ class Enemy(object):
             else:
                 self.vel = self.vel * -1
                 self.walkCount = 0
+    
+    def hit(self):
+        print('hit')

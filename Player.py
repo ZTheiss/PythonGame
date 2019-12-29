@@ -26,8 +26,6 @@ for i in range(len(walkdownMovement)):
 
 
 class Player(object):
-
-
     def __init__(self, xlocation, ylocation, playerWidth, playerHeight):
         self.xlocation = xlocation
         self.ylocation = ylocation
@@ -40,6 +38,9 @@ class Player(object):
         self.upMovement = False
         self.downMovement = False
         self.standing = True
+        self.hitbox = (self.xlocation + 16, self.ylocation + 15, 30, 40) #x,y,width,height
+
+
 
     def draw(self,wind):
         if self.walkCount + 1 >= 15: #9 sprits that display for 3 frames, index error if we go longer
@@ -67,4 +68,6 @@ class Player(object):
                 wind.blit(walkupMovement[0], (self.xlocation, self.ylocation))
             else:
                 wind.blit(walkdownMovement[0], (self.xlocation, self.ylocation))
+        self.hitbox = (self.xlocation + 16, self.ylocation + 15, 30, 40)
+        pygame.draw.rect(wind, (255,0,0), self.hitbox,2)
             

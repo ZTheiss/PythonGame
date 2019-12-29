@@ -20,6 +20,7 @@ startingBG = pygame.image.load('GeneralSprits/background.jpg')
 clockFPS = pygame.time.Clock()
 
 
+
 #Changing the GameWindow
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
@@ -33,12 +34,18 @@ def redrawGameWindow():
 facing = 0
 
 playerChar = Player(300,410,64,64)
-tempEnemy = Enemy(100, 410, 64, 64, 450, 410)
+tempEnemy = Enemy(100, 250, 64, 64, 450, 410)
+arrowTimer = 0
 arrows = []
 
 run = True
 while run:
     clockFPS.tick(30)
+
+    if arrowTimer > 0:
+        arrowTimer += 1
+    if arrowTimer > 3:
+        arrowTimer = 0
 
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -49,7 +56,11 @@ while run:
     i= 0
     for arrow in arrows: #Bug was checking facing, not arrow.facing
         i+=1
-        if arrow.facing == 1 or arrow.facing == -1:
+        if arrow.ylocation < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and arrow.ylocation > tempEnemy.hitbox[1]:
+            if arrow.xlocation < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and arrow.xlocation > tempEnemy.hitbox[0]:
+                tempEnemy.hit()
+                arrows.pop(arrows.index(arrow))
+        if arrow.facing == 1 or arrow.facing == -1: #Left Right
             if arrow.xlocation < windowX and arrow.xlocation > 0:
                 arrow.xlocation += arrow.velocity
             else:
@@ -62,7 +73,7 @@ while run:
 
     keys = pygame.key.get_pressed()
 
-    if keys[pygame.K_SPACE]:
+    if keys[pygame.K_SPACE] and arrowTimer == 0:
         if len(arrows) < 5:
             if playerChar.leftMovement:
                 facing = -1
@@ -83,7 +94,7 @@ while run:
                 facing = 2
                 arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
                 round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
-
+        arrowTimer = 1
 
     if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.walkSpeed:
         playerChar.xlocation -= playerChar.walkSpeed
