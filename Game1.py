@@ -6,8 +6,9 @@ from Projectile import *
 from Enemy import *
 
 
-windowX = 640
-windowY = 480
+windowX = 640 #screen.get_width()
+windowY = 480 #screen.get_height()
+
 pygame.init()
 #For Debugging
 wind = pygame.display.set_mode((windowX,windowY))
@@ -19,20 +20,24 @@ startingBG = pygame.image.load('GeneralSprits/background.jpg')
 
 clockFPS = pygame.time.Clock()
 
-
-
+#score = 0
 #Changing the GameWindow
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
+    #text = font.render('Score: ' + str(score), 1, (0,0,0)) #text, 1, Color
+    #wind.blit(text, (390, 10)) #Put score on screen
     playerChar.draw(wind)
-    tempEnemy.draw(wind)
+    if enemyExists == True:
+        tempEnemy.draw(wind)
     for arrow in arrows:
         arrow.draw(wind)
     pygame.display.update()
 
+
 #Main Loop
 facing = 0
-
+enemyExists = True
+#font = pygame.font.SysFont('comicsans', 30, True, False) #Font, size, Bold, Italics Top right text that updates with the score
 playerChar = Player(300,410,64,64)
 tempEnemy = Enemy(100, 250, 64, 64, 450, 410)
 arrowTimer = 0
@@ -41,6 +46,11 @@ arrows = []
 run = True
 while run:
     clockFPS.tick(30)
+
+    if enemyExists:
+        if tempEnemy.visible == False:
+            del tempEnemy
+            enemyExists = False
 
     if arrowTimer > 0:
         arrowTimer += 1
@@ -56,10 +66,12 @@ while run:
     i= 0
     for arrow in arrows: #Bug was checking facing, not arrow.facing
         i+=1
-        if arrow.ylocation < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and arrow.ylocation > tempEnemy.hitbox[1]:
-            if arrow.xlocation < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and arrow.xlocation > tempEnemy.hitbox[0]:
-                tempEnemy.hit()
-                arrows.pop(arrows.index(arrow))
+        if enemyExists:
+            if arrow.ylocation < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and arrow.ylocation > tempEnemy.hitbox[1]:
+                if arrow.xlocation < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and arrow.xlocation > tempEnemy.hitbox[0]:
+                    tempEnemy.hit()
+                    #score += 1
+                    arrows.pop(arrows.index(arrow))
         if arrow.facing == 1 or arrow.facing == -1: #Left Right
             if arrow.xlocation < windowX and arrow.xlocation > 0:
                 arrow.xlocation += arrow.velocity

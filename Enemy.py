@@ -23,20 +23,27 @@ class Enemy(object):
         self.walkCount = 0
         self.vel = 3
         self.hitbox = (self.xlocation + 20, self.ylocation, 28, 60) #x,y,width,height
+        self.hp = 10
+        self.startingHP = 10
+        self.visible = True
 
     def draw(self, wind):
         self.move()
-        if self.walkCount + 1 >= 33:
-            self.walkCount = 0
-        
-        if self.vel > 0:
-            wind.blit(walkrightMovementEnemy[self.walkCount//3], (self.xlocation, self.ylocation))
-            self.walkCount += 1
+        if self.hp > 0:
+            if self.walkCount + 1 >= 33:
+                self.walkCount = 0
+            
+            if self.vel > 0:
+                wind.blit(walkrightMovementEnemy[self.walkCount//3], (self.xlocation, self.ylocation))
+                self.walkCount += 1
+            else:
+                wind.blit(walkleftMovementEnemy[self.walkCount//3], (self.xlocation, self.ylocation))
+                self.walkCount += 1
+            self.hitbox = (self.xlocation + 20, self.ylocation, 28, 60) #x,y,width,height
+            #pygame.draw.rect(wind, (255,0,0), self.hitbox,2) #REMOVE BOX
         else:
-            wind.blit(walkleftMovementEnemy[self.walkCount//3], (self.xlocation, self.ylocation))
-            self.walkCount += 1
-        self.hitbox = (self.xlocation + 20, self.ylocation, 28, 60) #x,y,width,height
-        pygame.draw.rect(wind, (255,0,0), self.hitbox,2)
+            self.visible = False
+
 
     def move(self):
         if self.vel > 0: #moving Right
@@ -53,4 +60,8 @@ class Enemy(object):
                 self.walkCount = 0
     
     def hit(self):
-        print('hit')
+        if self.hp > 0:
+            self.hp -= 1
+        else:
+            self.visible = False
+        #print('hit')

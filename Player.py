@@ -39,8 +39,9 @@ class Player(object):
         self.downMovement = False
         self.standing = True
         self.hitbox = (self.xlocation + 16, self.ylocation + 15, 30, 40) #x,y,width,height
-
-
+        self.hp = 10
+        self.startingHP = 10
+       
 
     def draw(self,wind):
         if self.walkCount + 1 >= 15: #9 sprits that display for 3 frames, index error if we go longer
@@ -68,6 +69,8 @@ class Player(object):
                 wind.blit(walkupMovement[0], (self.xlocation, self.ylocation))
             else:
                 wind.blit(walkdownMovement[0], (self.xlocation, self.ylocation))
+        pygame.draw.rect(wind, (255,0,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50, 10))
+        pygame.draw.rect(wind, (0,255,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50 - (5*(self.startingHP-self.hp)), 10))
         self.hitbox = (self.xlocation + 16, self.ylocation + 15, 30, 40)
-        pygame.draw.rect(wind, (255,0,0), self.hitbox,2)
+        pygame.draw.rect(wind, (255,0,0), self.hitbox,2) #REMOVE BOX
             
