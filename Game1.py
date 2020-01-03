@@ -20,6 +20,12 @@ startingBG = pygame.image.load('GeneralSprits/background.jpg')
 
 clockFPS = pygame.time.Clock()
 
+#Audio
+arrowSound = pygame.mixer.Sound('Sounds/arrow.wav')
+hitSound = pygame.mixer.Sound('Sounds/arrow.wav')
+music = pygame.mixer.music.load('Sounds/music.mp3')
+pygame.mixer.music.play(-1)
+
 #score = 0
 #Changing the GameWindow
 def redrawGameWindow():
@@ -87,6 +93,7 @@ while run:
 
     if keys[pygame.K_SPACE] and arrowTimer == 0:
         if len(arrows) < 5:
+            arrowSound.play()
             if playerChar.leftMovement:
                 facing = -1
                 arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
