@@ -23,10 +23,11 @@ clockFPS = pygame.time.Clock()
 #Audio
 arrowSound = pygame.mixer.Sound('Sounds/arrow.wav')
 hitSound = pygame.mixer.Sound('Sounds/arrow.wav')
-music = pygame.mixer.music.load('Sounds/music.mp3')
-pygame.mixer.music.play(-1)
+#music = pygame.mixer.music.load('Sounds/music.mp3')
+#pygame.mixer.music.play(-1)
 
 #score = 0
+
 #Changing the GameWindow
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
@@ -53,10 +54,16 @@ run = True
 while run:
     clockFPS.tick(30)
 
-    if playerChar.hitbox[1] < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and playerChar.hitbox[1] > tempEnemy.hitbox[1]:
-        if playerChar.hitbox[0] < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and playerChar.hitbox[0] > tempEnemy.hitbox[0]:
+    """ if enemyExists:
+        if playerChar.hitbox[1] < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and playerChar.hitbox[1] > tempEnemy.hitbox[1]:
+            if playerChar.hitbox[0] < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and playerChar.hitbox[0] > tempEnemy.hitbox[0]:
+                playerChar.hit(wind)
+                #score += 1 """
+
+
+    if enemyExists:
+        if playerChar.is_collided_with(tempEnemy):
             playerChar.hit(wind)
-            #score += 1
 
     if enemyExists:
 
@@ -79,19 +86,19 @@ while run:
     for arrow in arrows: #Bug was checking facing, not arrow.facing
         i+=1
         if enemyExists:
-            if arrow.ylocation < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and arrow.ylocation > tempEnemy.hitbox[1]:
-                if arrow.xlocation < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and arrow.xlocation > tempEnemy.hitbox[0]:
+            if arrow.rect.y < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and arrow.rect.y > tempEnemy.hitbox[1]:
+                if arrow.rect.x < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and arrow.rect.x > tempEnemy.hitbox[0]:
                     tempEnemy.hit()
                     #score += 1
                     arrows.pop(arrows.index(arrow))
         if arrow.facing == 1 or arrow.facing == -1: #Left Right
-            if arrow.xlocation < windowX and arrow.xlocation > 0:
-                arrow.xlocation += arrow.velocity
+            if arrow.rect.x < windowX and arrow.rect.x > 0:
+                arrow.rect.x += arrow.velocity
             else:
                 arrows.pop(arrows.index(arrow))
         elif arrow.facing == -2 or arrow.facing == 2:
-            if arrow.ylocation < windowY and arrow.ylocation > 0:
-                arrow.ylocation += arrow.velocity
+            if arrow.rect.y < windowY and arrow.rect.y > 0:
+                arrow.rect.y += arrow.velocity
             else:
                 arrows.pop(arrows.index(arrow))
 
@@ -102,51 +109,51 @@ while run:
             arrowSound.play()
             if playerChar.leftMovement:
                 facing = -1
-                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+                arrows.append(copy.copy(Projectile(round(playerChar.rect.x+playerChar.playerWidth//2),
+                round(playerChar.rect.y+playerChar.playerHeight//2),facing)))
 
             elif playerChar.rightMovement:
                 facing = 1
-                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+                arrows.append(copy.copy(Projectile(round(playerChar.rect.x+playerChar.playerWidth//2),
+                round(playerChar.rect.y+playerChar.playerHeight//2),facing)))
 
             elif playerChar.upMovement:
                 facing = -2
-                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+                arrows.append(copy.copy(Projectile(round(playerChar.rect.x+playerChar.playerWidth//2),
+                round(playerChar.rect.y+playerChar.playerHeight//2),facing)))
 
             elif playerChar.downMovement:
                 facing = 2
-                arrows.append(copy.copy(Projectile(round(playerChar.xlocation+playerChar.playerWidth//2),
-                round(playerChar.ylocation+playerChar.playerHeight//2),facing)))
+                arrows.append(copy.copy(Projectile(round(playerChar.rect.x+playerChar.playerWidth//2),
+                round(playerChar.rect.y+playerChar.playerHeight//2),facing)))
         arrowTimer = 1
 
-    if keys[pygame.K_LEFT] and playerChar.xlocation > playerChar.walkSpeed:
-        playerChar.xlocation -= playerChar.walkSpeed
+    if keys[pygame.K_LEFT] and playerChar.rect.x > playerChar.walkSpeed:
+        playerChar.rect.x -= playerChar.walkSpeed
         playerChar.leftMovement = True #Movement is currently left, use left sprits
         playerChar.rightMovement = False
         playerChar.upMovement = False
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_RIGHT] and playerChar.xlocation < screenw - playerChar.playerWidth - playerChar.walkSpeed:
-        playerChar.xlocation += playerChar.walkSpeed
+    elif keys[pygame.K_RIGHT] and playerChar.rect.x < screenw - playerChar.playerWidth - playerChar.walkSpeed:
+        playerChar.rect.x += playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = True #Movement is currently right, use right sprits
         playerChar.upMovement = False
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_UP] and playerChar.ylocation > playerChar.walkSpeed:
-        playerChar.ylocation -= playerChar.walkSpeed
+    elif keys[pygame.K_UP] and playerChar.rect.y > playerChar.walkSpeed:
+        playerChar.rect.y -= playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = False
         playerChar.upMovement = True #Movement is currently up, use up sprits
         playerChar.downMovement = False
         playerChar.standing = False
 
-    elif keys[pygame.K_DOWN] and playerChar.ylocation < screenh - playerChar.playerHeight - playerChar.walkSpeed:
-        playerChar.ylocation += playerChar.walkSpeed
+    elif keys[pygame.K_DOWN] and playerChar.rect.y < screenh - playerChar.playerHeight - playerChar.walkSpeed:
+        playerChar.rect.y += playerChar.walkSpeed
         playerChar.leftMovement = False
         playerChar.rightMovement = False
         playerChar.upMovement = False

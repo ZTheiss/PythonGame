@@ -17,31 +17,32 @@ arrowDown = pygame.transform.scale(arrowDown, (16,16))
 
 class Projectile(object):
     def __init__ (self,xlocation,ylocation,facing):
-        self.xlocation = xlocation
-        self.ylocation = ylocation
+        self.rect = arrowLeft.get_rect()
+        self.rect.x = xlocation
+        self.rect.y = ylocation
         self.facing = facing
 
         if facing == 2: #Down
-            self.ylocation += 20
-            self.xlocation -= 9
+            self.rect.x -= 9
+            self.rect.y += 20
             self.velocity = 10 * facing
         if facing == -2: #Up
-            self.ylocation -= 20
-            self.xlocation -= 7.5
+            self.rect.x -= 7.5
+            self.rect.y -= 20
             self.velocity = 10 * facing
         elif facing == -1: #Left
-            self.xlocation -= 30 
+            self.rect.x -= 30
             self.velocity = 20 * facing #facing for direction U=-2,R=1,D=2,L=-1
         elif facing == 1: #Right
-            self.xlocation += 8  
+            self.rect.x += 8 
             self.velocity = 20 * facing #facing for direction U=-2,R=1,D=2,L=-1
     
     def draw(self, wind):
         if self.facing == 1:
-            wind.blit(arrowRight, (self.xlocation,self.ylocation))
+            wind.blit(arrowRight, (self.rect.x,self.rect.y))
         elif self.facing == -1:
-            wind.blit(arrowLeft, (self.xlocation,self.ylocation))
+            wind.blit(arrowLeft, (self.rect.x,self.rect.y))
         elif self.facing == 2:
-            wind.blit(arrowDown, (self.xlocation,self.ylocation))
+            wind.blit(arrowDown, (self.rect.x,self.rect.y))
         elif self.facing == -2:
-            wind.blit(arrowUp, (self.xlocation,self.ylocation))
+            wind.blit(arrowUp, (self.rect.x,self.rect.y))
