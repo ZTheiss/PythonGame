@@ -53,7 +53,13 @@ run = True
 while run:
     clockFPS.tick(30)
 
+    if playerChar.hitbox[1] < tempEnemy.hitbox[1] + tempEnemy.hitbox[3] and playerChar.hitbox[1] > tempEnemy.hitbox[1]:
+        if playerChar.hitbox[0] < tempEnemy.hitbox[0] + tempEnemy.hitbox[2] and playerChar.hitbox[0] > tempEnemy.hitbox[0]:
+            playerChar.hit(wind)
+            #score += 1
+
     if enemyExists:
+
         if tempEnemy.visible == False:
             del tempEnemy
             enemyExists = False

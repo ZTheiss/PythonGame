@@ -73,4 +73,20 @@ class Player(object):
         pygame.draw.rect(wind, (0,255,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50 - (5*(self.startingHP-self.hp)), 10))
         self.hitbox = (self.xlocation + 16, self.ylocation + 15, 30, 40)
         pygame.draw.rect(wind, (255,0,0), self.hitbox,2) #REMOVE BOX
-            
+    
+    def die(self, wind):
+        self.xlocation = 300
+        self.ylocation = 410
+        self.hp = self.startingHP
+        print("You have died.")
+        pygame.draw.rect(wind, (255,0,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50, 10))
+        pygame.draw.rect(wind, (0,255,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50 - (5*(self.startingHP-self.hp)), 10))
+
+    def hit(self,wind):
+        if self.hp <= 0:
+            self.die(wind)
+        else:
+            self.hp -= 1
+            print(self.hp)
+    
+  
