@@ -2,6 +2,7 @@ import pygame
 
 startingBG = pygame.image.load('GeneralSprits/background.jpg')
 charIdleModel = pygame.image.load('Sams/idle.png')
+charIdleModel = pygame.transform.scale(charIdleModel, (30,40))
 walkrightMovement = [pygame.image.load('Sams/r1.png'), pygame.image.load('Sams/r2.png'), pygame.image.load('Sams/r3.png'), 
 pygame.image.load('Sams/r4.png'), pygame.image.load('Sams/r5.png')]
 
@@ -25,9 +26,18 @@ for i in range(len(walkdownMovement)):
 
 class Player(object):
     def __init__(self, xlocation, ylocation, playerWidth, playerHeight):
-        self.rect = walkdownMovement[0].get_rect()
-        self.rect.x = xlocation + 16
-        self.rect.y = ylocation + 15
+        self.image = charIdleModel
+        self.rect = self.image.get_rect(center=(xlocation, ylocation))
+        print(self.rect)
+        self.rect.x = xlocation
+        
+        print(self.rect)
+        self.rect.x += 16
+        self.rect.y = ylocation
+        
+        print(self.rect)
+        self.rect.y += 15
+        print(self.rect)
         self.rect.width = 30
         self.rect.height = 40
         self.playerWidth = playerWidth
@@ -47,6 +57,10 @@ class Player(object):
         return self.rect(self.rect.x, self.rect.y, self.rect.width, self.rect.height)
 
     def is_collided_with(self, Enemy): #Check if the player is colliding with something
+        #print(self.rect)
+        #print("This is enemy.")
+        #print(Enemy.rect)
+        #return pygame.sprite.collide_rect(self, Enemy)
         return pygame.sprite.collide_rect(self, Enemy)
         #return self.rect.colliderect(Enemy)
 
@@ -83,8 +97,9 @@ class Player(object):
         pygame.draw.rect(wind, (0,255,0), (self.hitbox[0] - 10, self.hitbox[1] - 15, 50 - (5*(self.startingHP-self.hp)), 10))
         
         self.hitbox = (self.rect.x + 16, self.rect.y + 15, 30, 40)
-        #print(self.rect) #Hit box is high
-        pygame.draw.rect(wind, (255,0,0), (self.rect.x + 16, self.rect.y + 15, 30, 40),2) #REMOVE BOX - Hitbox
+        print("Rect")
+        print(self.rect) #Hit box is high
+        pygame.draw.rect(wind, (255,0,0), (self.hitbox), 2) #REMOVE BOX - Hitbox
     
     def die(self, wind):
         self.rect.x = 300

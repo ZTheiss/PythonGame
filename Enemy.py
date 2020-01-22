@@ -14,10 +14,14 @@ class Enemy(object):
 
     def __init__(self, xlocation, ylocation, widthEnemy, heightEnemy, xend, yend): 
         self.rect = pygame.image.load("EnemySprits/R1E.png").get_rect()
-        self.rect.x = xlocation #Left Right
+        #print(self.rect.x)
+        self.rect.x = xlocation + 40 #Left Right
+        #print(self.rect.x)
         self.rect.y = ylocation #Up Down
         self.rect.width = 28
         self.rect.height = 60
+        #print("Start Up")
+        #print(self.rect)
         self.widthEnemy = widthEnemy
         self.heightEnemy = heightEnemy
         self.xend = xend
@@ -44,7 +48,10 @@ class Enemy(object):
                 wind.blit(walkleftMovementEnemy[self.walkCount//3], (self.rect.x, self.rect.y))
                 self.walkCount += 1
             self.hitbox = (self.rect.x + 20, self.rect.y, 28, 60) #x,y,width,height
-            #pygame.draw.rect(wind, (255,0,0), self.hitbox,2) #REMOVE BOX
+            #print("New Box")
+            #print(self.rect)
+            #print(self.rect.x +20)
+            pygame.draw.rect(wind, (255,0,0), (self.rect.x+20, self.rect.y, 28, 60),2) #REMOVE BOX
         else:
             self.visible = False
 
