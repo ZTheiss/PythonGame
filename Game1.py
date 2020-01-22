@@ -32,7 +32,7 @@ hitSound = pygame.mixer.Sound('Sounds/arrow.wav')
 def redrawGameWindow():
     wind.blit(startingBG, (0,0))
     #text = font.render('Score: ' + str(score), 1, (0,0,0)) #text, 1, Color
-    #wind.blit(text, (390, 10)) #Put score on screen
+    #wind.blit(text, (390, 10)) #Put score on screen (top right)
     playerChar.draw(wind)
     if enemyExists == True:
         tempEnemy.draw(wind)
